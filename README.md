@@ -1,6 +1,6 @@
 # yaxunit-test-writer
 
-Skill для ИИ-агентов, поддерживающих формат [Skills](https://skills.sh),
+Skill для ИИ-агентов, устанавливаемый через [skills CLI](https://github.com/vercel-labs/skills),
 для написания юнит-тестов конфигураций 1С:Предприятие на фреймворке
 [YAxUnit](https://github.com/bia-technologies/yaxunit).
 
@@ -12,9 +12,11 @@ Skill для ИИ-агентов, поддерживающих формат [Ski
 
 ## Установка
 
-Устанавливается через [`skills` CLI](https://github.com/vercel-labs/skills)
-под любого поддерживаемого им агента (Claude Code, Cursor, Codex, Windsurf,
-Cline и др.) — флагом `-a` указывается целевой агент, ниже пример для Claude Code:
+Устанавливается под любого поддерживаемого `skills` агента (Claude Code, Cursor,
+Codex, Windsurf, Cline и др.) — флагом `-a` указывается целевой агент, ниже
+пример для Claude Code. `astrizhachuk/yaxunit-test-writer` — это форма
+`owner/repo`, `skills` понимает её как сокращение для GitHub-репозитория
+`https://github.com/astrizhachuk/yaxunit-test-writer` и клонирует его:
 
 ```
 skills add astrizhachuk/yaxunit-test-writer -a claude-code -y
