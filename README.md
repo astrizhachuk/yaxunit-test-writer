@@ -1,7 +1,7 @@
 # yaxunit-test-writer
 
 Claude Code skill для написания юнит-тестов конфигураций 1С:Предприятие на
-фреймворке [YAxUnit](https://github.com/YAXUNIT/yaxunit).
+фреймворке [YAxUnit](https://github.com/bia-technologies/yaxunit).
 
 Скилл проводит агента через весь цикл написания теста: подготовка тестового
 модуля и его регистрация в `Configuration.xml`, проектирование тестов (типы,
