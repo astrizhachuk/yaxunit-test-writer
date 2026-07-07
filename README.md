@@ -1,7 +1,8 @@
 # yaxunit-test-writer
 
-Claude Code skill для написания юнит-тестов конфигураций 1С:Предприятие на
-фреймворке [YAxUnit](https://github.com/bia-technologies/yaxunit).
+Skill для ИИ-агентов, поддерживающих формат [Skills](https://skills.sh),
+для написания юнит-тестов конфигураций 1С:Предприятие на фреймворке
+[YAxUnit](https://github.com/bia-technologies/yaxunit).
 
 Скилл проводит агента через весь цикл написания теста: подготовка тестового
 модуля и его регистрация в `Configuration.xml`, проектирование тестов (типы,
@@ -11,8 +12,19 @@ Claude Code skill для написания юнит-тестов конфигу
 
 ## Установка
 
+Устанавливается через [`skills` CLI](https://github.com/vercel-labs/skills)
+под любого поддерживаемого им агента (Claude Code, Cursor, Codex, Windsurf,
+Cline и др.) — флагом `-a` указывается целевой агент, ниже пример для Claude Code:
+
 ```
 skills add astrizhachuk/yaxunit-test-writer -a claude-code -y
+```
+
+Под другого агента — замените `claude-code` на нужное имя (`cursor`, `codex`,
+`windsurf`, ...), либо `-a '*'`, чтобы установить сразу во все обнаруженные агенты:
+
+```
+skills add astrizhachuk/yaxunit-test-writer -a '*' -y
 ```
 
 Глобально (для всех проектов):
@@ -20,6 +32,10 @@ skills add astrizhachuk/yaxunit-test-writer -a claude-code -y
 ```
 skills add astrizhachuk/yaxunit-test-writer -a claude-code -g -y
 ```
+
+Поле `argument-hint` в frontmatter `SKILL.md` — специфика Claude Code (аргумент
+slash-команды); другие агенты его игнорируют, остальной текст скилла
+агенто-нейтрален.
 
 ## Обновление
 
