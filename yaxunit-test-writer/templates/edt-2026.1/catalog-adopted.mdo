@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mdclass:Catalog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mdclass="http://g5.1c.ru/v8/dt/metadata/mdclass" xmlns:mdclassExtension="http://g5.1c.ru/v8/dt/metadata/mdclass/extension" uuid="{новый-uuid}" extendedConfigurationObject="{uuid-источника}">
+  <producedTypes>
+    <objectType typeId="{новый-uuid}" valueTypeId="{новый-uuid}"/>
+    <refType typeId="{новый-uuid}" valueTypeId="{новый-uuid}"/>
+    <selectionType typeId="{новый-uuid}" valueTypeId="{новый-uuid}"/>
+    <listType typeId="{новый-uuid}" valueTypeId="{новый-uuid}"/>
+    <managerType typeId="{новый-uuid}" valueTypeId="{новый-uuid}"/>
+  </producedTypes>
+  <name>[ИмяСправочника]</name>
+  <objectBelonging>Adopted</objectBelonging>
+  <extension xsi:type="mdclassExtension:CatalogExtension">
+    <extendedConfigurationObject>Checked</extendedConfigurationObject>
+  </extension>
+  <useStandardCommands>true</useStandardCommands>
+  <checkUnique>true</checkUnique>
+</mdclass:Catalog>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mdclass:InformationRegister xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mdclass="http://g5.1c.ru/v8/dt/metadata/mdclass" xmlns:mdclassExtension="http://g5.1c.ru/v8/dt/metadata/mdclass/extension" uuid="{новый-uuid}" extendedConfigurationObject="{uuid-источника}">
+  <producedTypes>
+    <selectionType typeId="{новый-uuid}" valueTypeId="{новый-uuid}"/>
+    <listType typeId="{новый-uuid}" valueTypeId="{новый-uuid}"/>
+    <managerType typeId="{новый-uuid}" valueTypeId="{новый-uuid}"/>
+    <recordSetType typeId="{новый-uuid}" valueTypeId="{новый-uuid}"/>
+    <recordKeyType typeId="{новый-uuid}" valueTypeId="{новый-uuid}"/>
+    <recordType typeId="{новый-uuid}" valueTypeId="{новый-uuid}"/>
+    <recordManagerType typeId="{новый-uuid}" valueTypeId="{новый-uuid}"/>
+  </producedTypes>
+  <name>[ИмяРегистра]</name>
+  <objectBelonging>Adopted</objectBelonging>
+  <extension xsi:type="mdclassExtension:InformationRegisterExtension">
+    <extendedConfigurationObject>Checked</extendedConfigurationObject>
+    <informationRegisterPeriodicity>Checked</informationRegisterPeriodicity>
+    <writeMode>Checked</writeMode>
+  </extension>
+  <useStandardCommands>true</useStandardCommands>
+  {свойства-из-источника}
+</mdclass:InformationRegister>

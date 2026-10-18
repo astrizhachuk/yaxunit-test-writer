@@ -1,1 +1,2 @@
 yaxunit-test-writer/templates/**/*.xml -text
+yaxunit-test-writer/templates/**/*.mdo -text
