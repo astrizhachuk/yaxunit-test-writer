@@ -8,9 +8,9 @@
 			</xr:PropertyState>
 		</InternalInfo>
 		<Properties>
+			<ObjectBelonging>Adopted</ObjectBelonging>
 			<Name>[ИмяМодуля]</Name>
 			<Comment/>
-			<ObjectBelonging>Adopted</ObjectBelonging>
 			<ExtendedConfigurationObject>{uuid-из-src-xml}</ExtendedConfigurationObject>
 			<Global>false</Global>
 			<ClientManagedApplication>???</ClientManagedApplication>

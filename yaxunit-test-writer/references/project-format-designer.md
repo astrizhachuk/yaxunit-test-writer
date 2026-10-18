@@ -60,7 +60,7 @@ test/
 Перехватчик — это **adopted**-расширение существующего объекта основной конфигурации. Действия зависят от состояния объекта в расширении:
 
 - **Объект не заимствован** (нет `test/[Тип]/[ИмяОбъекта].xml`) — создай XML-метаданные (ниже) и зарегистрируй объект (раздел «Регистрация в `Configuration.xml`»).
-- **Объект заимствован, нужного модуля нет** (например, есть `ObjectModule.bsl`, а нужен `ManagerModule.bsl`) — в существующем `test/[Тип]/[ИмяОбъекта].xml` добавь в конец `<InternalInfo>` блок `<xr:PropertyState>` для нового модуля (правило — в п. 2 ниже). UUID не меняй, `Configuration.xml` не трогай.
+- **Объект заимствован, нужного модуля нет** (например, есть `ObjectModule.bsl`, а нужен `ManagerModule.bsl`) — создай файл модуля и сверь существующий `test/[Тип]/[ИмяОбъекта].xml` с шаблоном версии: если в шаблоне есть блок для перехватываемого модуля (`{расширяемый-модуль}`), добавь такой же блок для нового модуля. UUID не меняй, `Configuration.xml` не трогай.
 - **Модуль есть** — метаданные и регистрацию не трогай.
 
 ### Общий принцип построения XML
@@ -68,23 +68,31 @@ test/
 Структура XML перехватчика строится на основе `src/[Тип]/[ИмяОбъекта].xml`:
 
 1. **Корневой тег** (`<CommonModule>`, `<Document>`, `<Catalog>`, `<InformationRegister>`) — новый UUID.
-2. **`<InternalInfo>`** — скопировать блок `<xr:GeneratedType>` из src, **заменив все UUID (TypeId и ValueId) на новые**; структура (имена, категории, порядок) остаётся точно такой же. Добавить в конец блока один или несколько блоков `<xr:PropertyState>` — по одному на каждый расширяемый модуль:
-   - Для общего модуля: `<xr:Property>Module</xr:Property>`
-   - Для модуля менеджера: `<xr:Property>ManagerModule</xr:Property>`
-   - Для модуля объекта: `<xr:Property>ObjectModule</xr:Property>`
-   - Для набора записей регистра сведений: `<xr:Property>RecordSetModule</xr:Property>`
-
-   Если расширение перекрывает несколько модулей, добавь соответствующие блоки `<xr:PropertyState>` подряд.
-3. **`<Properties>`** — минимальный набор: `<Name>`, `<Comment/>`, `<ObjectBelonging>Adopted</ObjectBelonging>`, `<ExtendedConfigurationObject>{uuid корневого тега из src}</ExtendedConfigurationObject>`. Для регистров сведений дополнительно скопировать `<InformationRegisterPeriodicity>` и `<WriteMode>` из src.
-4. Общие модули не имеют `<xr:GeneratedType>` ни в src, ни в test — `<InternalInfo>` содержит только `<xr:PropertyState>`.
+2. **`<InternalInfo>`** — скопировать блок `<xr:GeneratedType>` из src, **заменив все UUID (TypeId и ValueId) на новые**; структура (имена, категории, порядок) остаётся точно такой же. Остальное содержимое `<InternalInfo>` — как в шаблоне версии.
+3. **`<Properties>`** — минимальный набор: `<Name>`, `<Comment/>`, `<ObjectBelonging>Adopted</ObjectBelonging>`, `<ExtendedConfigurationObject>{uuid корневого тега из src}</ExtendedConfigurationObject>`. Для документов дополнительно пустой `<RegisterRecords/>`, для регистров сведений — `<InformationRegisterPeriodicity>` и `<WriteMode>` из src. Порядок свойств — как в шаблоне версии.
+4. Общие модули не имеют `<xr:GeneratedType>` ни в src, ни в test — `<InternalInfo>` как в шаблоне версии.
+5. **`<ChildObjects/>`** — у справочника, документа и регистра сведений сразу после `</Properties>` пустой `<ChildObjects/>`; без него сборка падает («ожидаемое ChildObjects»). У общего модуля этого тега нет.
 
 UUID — раздел «Генерация UUID» навыка (для документа или справочника обычно нужно 11, для регистра 15).
 
-### Шаблон для общего модуля
+### Шаблоны заимствованных объектов
 
-Нужен **1 UUID** (корневой тег). Свойства `ClientManagedApplication`, `ExternalConnection`, `ClientOrdinaryApplication`, `ServerCall` скопировать из `src/CommonModules/[ИмяМодуля].xml`.
+Строй XML по шаблону из `templates/{версия-платформы}/` — в нем все пункты выше уже учтены:
 
-Прочитай шаблон из `templates/{версия-платформы}/common-module-adopted.xml` и подставь значения: `{новый-uuid}` → новый UUID, `[ИмяМодуля]` → имя модуля, `{uuid-из-src-xml}` → UUID корневого тега из `src`, `???` → значения из src.
+| Тип объекта      | Шаблон                                 | Нужно UUID |
+| ---------------- | -------------------------------------- | ---------- |
+| Общий модуль     | `common-module-adopted.xml`            | 1          |
+| Справочник       | `catalog-adopted.xml`                  | 11         |
+| Документ         | `document-adopted.xml`                 | 11         |
+| Регистр сведений | `information-register-adopted.xml`     | 15         |
+
+Подстановки:
+
+- `{новый-uuid}` — каждое вхождение заменяется **своим** новым UUID (корневой тег, все `TypeId` и `ValueId`);
+- `{uuid-из-src-xml}` — UUID корневого тега из `src/[Тип]/[ИмяОбъекта].xml`;
+- `[ИмяМодуля]` / `[ИмяСправочника]` / `[ИмяДокумента]` / `[ИмяРегистра]` — имя объекта, как в src (в том числе в атрибутах `name` блоков `<xr:GeneratedType>`);
+- `???` — значения из src: у общего модуля `ClientManagedApplication`, `ExternalConnection`, `ClientOrdinaryApplication`, `ServerCall`; у регистра сведений `InformationRegisterPeriodicity`, `WriteMode`;
+- `{расширяемый-модуль}` (если есть в шаблоне) — имя перехватываемого модуля (`ObjectModule`, `ManagerModule`, `RecordSetModule`); если модулей несколько — повтори содержащий его блок для каждого.
 
 ## Регистрация в `Configuration.xml`
 
@@ -117,4 +125,4 @@ Adopted-объекты регистрируются так же, как новы
 - [ ] Файл создан в `test/CommonModules/[Имя]/Ext/Module.bsl`
 - [ ] Создан файл метаданных `test/CommonModules/[Имя].xml` с уникальным UUID
 - [ ] Модуль зарегистрирован в `test/Configuration.xml` (в `<ChildObjects>`, алфавитный порядок)
-- [ ] Перехватчик (если объект заимствован впервые) зарегистрирован в `test/Configuration.xml`; если к уже заимствованному объекту добавлен модуль — в его `.xml` добавлен `<xr:PropertyState>`
+- [ ] Перехватчик (если объект заимствован впервые): XML построен по шаблону версии (у справочника, документа, регистра есть `<ChildObjects/>`) и объект зарегистрирован в `test/Configuration.xml`; если к уже заимствованному объекту добавлен модуль — его `.xml` сверен с шаблоном версии
